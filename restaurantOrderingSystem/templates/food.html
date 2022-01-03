@@ -1,0 +1,83 @@
+{% extends 'base.html'%}
+{% block style%}
+
+.staticing{
+    display:inline-block;
+    flex-wrap:  wrap ;
+    margin:12px;
+    width: auto;
+}
+.card-img-top{
+width:20rem !important;
+height:15rem !important;
+}
+
+{%endblock%}
+{% block content %}
+
+
+    <h1> اصنافك لرقم الطاولة {{custom}}</h1>
+<div >
+{% for fod in custom.my_food.all %}
+<div class="staticing">
+            <div class="card" style="width: 20.2rem ; height:35rem;">
+  <img class="card-img-top" src="{{ fod.meal.meal_image.url }}" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title"> اسم الصنف :{{fod.meal.meal_name}}</h5>
+    <div class="card-text">
+        <p>{{fod.quantity}}: الكمية</p>
+
+  </div>
+  </div></div></div>
+
+        {%endfor%}
+    </div>
+<a href="/makeorder"><BUTTON class="btn btn-success" > تاكيد الطلب</BUTTON>
+    <a href="/menu"><BUTTON class="btn btn-primary" > العودة الى قائمة الطعام</BUTTON>
+
+</a>
+{% endblock %}
+</div>
+{% block javascript %}
+    $(document).on('click','.btn-success',function(event){
+        event.preventDefault();
+        var link = this;
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: false
+})
+
+swalWithBootstrapButtons.fire({
+  title: 'هل انت متاكد من تاكيد طلبك؟',
+  text: "سيتم اضافة هذا طلبك الى قائمة الطلبات",
+  icon: 'question',
+  showCancelButton: true,
+  confirmButtonText: 'نعم قم باضافته',
+  cancelButtonText: 'لا تقم بالاضافة!',
+  reverseButtons: true
+}).then((result) => {
+  if (result.isConfirmed) {
+    swalWithBootstrapButtons.fire(
+      'تمت العملية!',
+      'سيتم تنفيذ طلبك باسرع وقت.',
+      'success'
+
+    ).then(function() {
+                window.open($(link).attr("href"));
+
+  } else if (
+    /* Read more about handling dismissals below */
+    result.dismiss === Swal.DismissReason.cancel
+  ) {
+    swalWithBootstrapButtons.fire(
+      'Cancelled',
+      'لم تتم عملية الاضافة :)',
+      'error'
+    )
+  }
+})
+    });
+{% endblock %}
