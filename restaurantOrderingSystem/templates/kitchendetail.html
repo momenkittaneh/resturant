@@ -1,0 +1,99 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block style%}
+
+.center {
+margin: auto;
+border: 5px solid #FFFF00;
+padding: 10px;
+}
+.log{
+display:flex;}
+.staticing{
+    display:inline-block;
+    flex-wrap:  wrap ;
+    margin:12px;
+    width: auto;
+}
+.card-img-top{
+width:20rem !important;
+height:15rem !important;
+}
+
+{%endblock%}
+{% block content %}
+<nav class="navbar fixed-top navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">restaurant dashboard</a>
+</nav>
+<div class="log">
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height:1000px">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+      <span class="fs-4">resturant</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a href="/" class="nav-link text-white" aria-current="page">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+          البداية
+        </a>
+      </li>
+      <li>
+        <a href="/orders" class="nav-link text-white">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+          الفواتير
+        </a>
+      </li>
+      <li>
+        <a href="/kitchen" class="nav-link active">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+          الطلبات
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <div class="dropdown">
+      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        <strong>Check</strong>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+          {% if user.is_authenticated %}
+Hello, {{ user.first_name }} {{ user.last_name }}
+        <li><a class="dropdown-item" href="/logout">Sign out</a></li>
+{% else %}
+                  <li><a class="dropdown-item" href="/accounts/login/">Sign in</a></li>
+{%endif%}
+
+    </div></div>
+<section>
+	<div>
+        <h1>بيانات الطلب</h1>
+{% for fod in custom.my_food.all %}
+        <div class="staticing">
+
+            <div class="card" style="width: 20.2rem ;">
+  <img class="card-img-top" src="{{ fod.meal.meal_image.url }}" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">{{fod.meal.meal_name}}</h5>
+    <div class="card-text">
+        <p>{{fod.quantity}}</p>
+    </div></div></div></div>
+{%endfor%}
+   </div>
+{{price.get_order_status_display}}
+{% if price.order_status == 'PE'%}
+<a href="/update/PREPARING/{{price.id}}/{{custom.id}}"><button class="btn btn-success">بدا التحضير</button></a>
+{%elif price.order_status == 'PR'%}
+<a href="/update/done/{{price.id}}/{{custom.id}}"><button class="btn btn-success">تم تحضير الطلب</button></a>
+{%elif price.order_status == 'WA'%}
+<a href="/update/deliver/{{price.id}}/{{custom.id}}"><button class="btn btn-success">تم التسليم</button></a>
+        {%else%}
+        <button class="btn btn-success">تم تسليم الطلب</button></a>
+
+{%endif%}
+</section>
+	</div>
+
+{%endblock%}

@@ -1,0 +1,72 @@
+{% extends 'base.html'%}
+{%load static %}
+
+{% block style%}
+
+.staticing{
+    display:inline-block;
+    flex-wrap:  wrap ;
+    margin:12px;
+    width: auto;
+}
+.card-img-top{
+width:20rem !important;
+height:15rem !important;
+}
+
+{%endblock%}
+{% block content %}
+    <h1> تم تاكيد الطلب بنجاح سيتم تجهيز طلبك باسرع وقت</h1>
+<div>
+{% for fod in custom.my_food.all %}
+<div class="staticing">
+
+            <div class="card" style="width: 20.2rem ; height:35rem;">
+  <img class="card-img-top" src="{{ fod.meal.meal_image.url }}" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title"> اسم الصنف :{{fod.meal.meal_name}}</h5>
+    <div class="card-text">
+        <p>{{fod.quantity}}: الكمية</p>
+
+  </div>
+</div></div></div>
+        {%endfor%}
+              <div>
+                 <h2>سيتم تجهيز الطلبية خلال</h2>
+                 <ul id="countdown-1" class="countdown">
+                    <h3><span id="minutes"></span>
+                    <span id="seconds"></span> </h3>
+                 </ul>
+
+              </div>
+
+    </div>
+{% endblock %}
+{% block javascript %}
+function makeTimer() {
+   var endTime=new Date({{ date.created_at|date:"U" }} * 1000);
+    endTime = (Date.parse(endTime) / 1000);
+        var now = new Date();
+        now = (Date.parse(now) / 1000);
+
+        var timeLeft = endTime - now;
+
+        var days = Math.floor(timeLeft / (60*7));
+        var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
+        var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600 )) / 60);
+        var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
+
+        if (hours < "10") { hours = "0" + hours; }
+        if (minutes < "10") { minutes = "0" + minutes; }
+        if (seconds < "10") { seconds = "0" + seconds; }
+
+        $("#minutes").html(minutes + "<span>دقيقة</span>");
+        $("#seconds").html(seconds + "<span>ثانية</span>");
+
+}
+
+setInterval(function() { makeTimer(); }, 1000);
+
+{% endblock %}
+
+</div>
