@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* .page{
+    display: flex;
+    justify-content: space-evenly;
+} */
+/* .register{
+    background: gray;
+    width: 20%;
+    height: 100%;
+
+    float: left;
+}
+.login{
+    background: green;
+    width: 20%;
+    height: 100%;
+    float: right;
+} */
+</style>
+<body>
+    <!-- <div class="page">
+        <div class="register"> -->
+            <form action="/register" method="post">
+                {% csrf_token %}
+                <table>
+                    <br>
+                    <tr><td><label>first name:</label></td>
+                    <td><input type="text" name="first_name"><br><br></td></tr>
+                    <tr><td><label >last name</label></td>
+                    <td><input type="text" name="last_name"><br><br></td></tr>
+                    <tr><td><label >email</label></td>
+                    <td><input type="email" name="email"><br><br></td></tr>
+                    <tr><td><label>password</label></td>
+                    <td><input type="password" name="password"><br><br></td></tr>
+                    <tr><td><label>confirm password</label></td>
+                    <td><input type="password" name="confirm_password"><br><br></td></tr>
+                    </brt><tr><td><input type="submit" value="register"><br></tr></td>
+                </table>
+            </form>
+        <!-- </div> -->
+        <div class="error">
+                {% if messages %}
+                <ul class="messages">    
+                    {% for message in messages %}    
+                        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+                    {% endfor %}
+                    </ul>
+                    {% endif %}
+        <!-- </div> -->
+<!-- 
+        <div class="login"> -->
+                
+                <form action="/login" method="POST">
+                        {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td><label for="email">Email:</label></td>
+                            <td><input type="email" id="email" name="email" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="password">Password:</label></td>
+                            <td><input type="password" id="password" name="password" required></td>
+                        </tr>
+                        <tr>
+                            <td><input type="submit" value="login"></td>
+                        </tr>
+                    </table>
+            </form>
+        <!-- </div> -->
+</div>
+</body>
+</html>

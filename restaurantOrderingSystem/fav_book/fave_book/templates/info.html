@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="welcome_head">welcome {{request.session.first_name}}</h1>
+    <a href="/logout">logout</a>
+
+    <p>added by :{{books.uploaded_by.first_name}} {{books.uploaded_by.last_name}}</p>
+    <p>added on : {{books.created_at}}</p>
+    <p>last update: {{books.updated_at}}</p>
+    <p>description :{{books.desc}}</p>
+    <h2>User who like this book</h2>
+    <ul>{%for user_like in user%}
+        <li>{{user_like.first_name}} {{user_like.last_name}}</li>
+    </ul>
+    {%endfor%}
+    <a href="/book">back</a>
+</body>
+</html>
